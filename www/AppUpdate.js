@@ -30,3 +30,20 @@ exports.checkAppUpdate = function(successOrUrl, errorOrOptions, updateUrl, optio
     
     exec(successCallback, errorCallback, "AppUpdate", "checkAppUpdate",  [updateUrl, options]);
 };
+exports.install = function(successOrUrl, errorOrOptions, updateUrl, options) {
+    // If the update URL hasnt been set in the updateUrl then assume no callbacks passed
+    var successCallback = updateUrl ? successOrUrl : null;
+    var errorCallback = updateUrl ? errorOrOptions : null;
+    
+    // This handles case 2, where there is an updateURL and options set
+    if ( !updateUrl && typeof errorOrOptions === 'object' ) {
+        options = errorOrOptions;
+    }
+    
+    // If there is no updateUrl then assume that the URL is the first paramater
+    updateUrl = updateUrl ? updateUrl : successOrUrl;
+    
+    options = options ? options : {};
+    
+    exec(successCallback, errorCallback, "AppUpdate", "install",  [updateUrl, options]);
+};
