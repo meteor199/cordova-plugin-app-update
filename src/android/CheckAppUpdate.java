@@ -31,6 +31,12 @@ public class CheckAppUpdate extends CordovaPlugin {
             getUpdateManager(args, callbackContext).checkUpdate();
             return true;
         }
+        else if(action.equals("install")){
+            verifyStoragePermissions();
+            getUpdateManager(args, callbackContext);
+            this.updateManager.updateUrl=args.getString(0);
+            this.updateManager.emitNoticeDialogOnClick1();
+        }
         callbackContext.error(Utils.makeJSON(Constants.NO_SUCH_METHOD, "no such method: " + action));
         return false;
     }

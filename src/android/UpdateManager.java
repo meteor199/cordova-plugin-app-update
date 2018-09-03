@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class UpdateManager {
      *   </update>
      */
     private String updateXmlUrl;
+    public String updateUrl;
     private JSONObject options;
     private JSONArray args;
     private CordovaInterface cordova;
@@ -199,7 +201,24 @@ public class UpdateManager {
         // 下载文件
         downloadApk((AlertDialog) ret.get("dialog"), (ProgressBar) ret.get("progress"));
     }
+    public void emitNoticeDialogOnClick1() {
+        isDownloading = true;
 
+        boolean skipProgressDialog = false;
+        try {
+            skipProgressDialog = options.getBoolean("skipProgressDialog");
+        } catch (JSONException e) {}
+
+        // 显示下载对话框
+        Map<String, Object> ret = msgBox.showDownloadDialog(
+                downloadDialogOnClickNeg,
+                downloadDialogOnClickPos,
+                downloadDialogOnClickNeu,
+                !skipProgressDialog);
+
+        // 下载文件
+        downloadApk1((AlertDialog) ret.get("dialog"), (ProgressBar) ret.get("progress"));
+    }
     /**
      * 手动安装
      * Download again
@@ -240,7 +259,23 @@ public class UpdateManager {
             dialog.dismiss();
         }
     };
+    /**
+     * 下载apk文件
+     *
+     * @param mProgress
+     * @param mDownloadDialog
+     */
+    private void downloadApk1(AlertDialog mDownloadDialog, ProgressBar mProgress) {
+        LOG.d(TAG, "downloadApk" + mProgress);
+        HashMap<String, String> h = new HashMap<String, String>();
+        h.put("url",this.updateUrl);
+        h.put("version","1436218");
 
+        // 启动新线程下载软件
+        downloadApkThread = new DownloadApkThread(mContext, mHandler, mProgress, mDownloadDialog, h, options);
+        this.cordova.getThreadPool().execute(downloadApkThread);
+        // new Thread(downloadApkThread).start();
+    }
     /**
      * 下载apk文件
      *
