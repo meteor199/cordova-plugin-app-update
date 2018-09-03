@@ -1,4 +1,18 @@
+# 添加 `install` 方法，
+可以从 `url` 直接下载 `apk`,不需用`version.xml`
 
+``` js
+    const url ='https://xxx.com/xxx.apk';
+    return new Promise((resolve, reject) => {
+      window.AppUpdate.install((msg) => {
+        console.log(msg);
+        resolve(msg);
+      }, (error) => {
+        reject(error);
+        console.log(error);
+      }, url);
+    });
+```
 
 ![travis](https://travis-ci.org/vaenow/cordova-plugin-app-update.svg?branch=master)  
 
