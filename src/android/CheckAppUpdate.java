@@ -42,15 +42,15 @@ public class CheckAppUpdate extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext)
             throws JSONException {
 
+        getUpdateManager(args, callbackContext);
+        this.updateManager.updateUrl=args.getString(0);
         if (action.equals("checkAppUpdate")) {
             verifyStoragePermissions();
-            getUpdateManager(args, callbackContext).checkUpdate();
+            this.updateManager.checkUpdate();
             return true;
         }
         else if(action.equals("install")){
             if (verifyInstallPermission() && verifyOtherPermissions()){
-                getUpdateManager(args, callbackContext);
-                this.updateManager.updateUrl=args.getString(0);
                 this.updateManager.emitNoticeDialogOnClick1();
                 return true;
             }
@@ -60,11 +60,7 @@ public class CheckAppUpdate extends CordovaPlugin {
     }
 
     public void startInstall(){
-        if (verifyInstallPermission() && verifyOtherPermissions()){
-            getUpdateManager(args, callbackContext);
-            this.updateManager.updateUrl=args.getString(0);
-            this.updateManager.emitNoticeDialogOnClick1();
-        }
+        this.updateManager.emitNoticeDialogOnClick1();
     }
 
     // Prompt user for all other permissions if we don't already have them all.
@@ -86,7 +82,7 @@ public class CheckAppUpdate extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == INSTALL_PERMISSION_REQUEST_CODE) {
             if (!cordova.getActivity().getPackageManager().canRequestPackageInstalls()) {
-                getUpdateManager().permissionDenied("Permission Denied: " + Manifest.permission.REQUEST_INSTALL_PACKAGES);
+                this.updateManager.permissionDenied("Permission Denied: " + Manifest.permission.REQUEST_INSTALL_PACKAGES);
                 return;
             }
 
@@ -96,7 +92,7 @@ public class CheckAppUpdate extends CordovaPlugin {
         else if (requestCode == UNKNOWN_SOURCES_PERMISSION_REQUEST_CODE) {
             try {
                 if (Settings.Secure.getInt(cordova.getActivity().getContentResolver(), Settings.Secure.INSTALL_NON_MARKET_APPS) != 1) {
-                    getUpdateManager().permissionDenied("Permission Denied: " + Settings.Secure.INSTALL_NON_MARKET_APPS);
+                    this.updateManager.permissionDenied("Permission Denied: " + Settings.Secure.INSTALL_NON_MARKET_APPS);
                     return;
                 }
             }
@@ -159,7 +155,7 @@ public class CheckAppUpdate extends CordovaPlugin {
         if (requestCode == OTHER_PERMISSIONS_REQUEST_CODE) {
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                    getUpdateManager().permissionDenied("Permission Denied: " + permissions[i]);
+                    this.updateManager.permissionDenied("Permission Denied: " + permissions[i]);
                     return;
                 }
             }
