@@ -1,16 +1,16 @@
 {
-  "name": "cordova-plugin-app-update",
-  "version": "1.6.0",
+  "name": "cordova-plugin-app-update2",
+  "version": "1.6.1",
   "description": "Cordova App Update",
   "cordova": {
-    "id": "cordova-plugin-app-update",
+    "id": "cordova-plugin-app-update2",
     "platforms": [
       "android"
     ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vaenow/cordova-plugin-app-update.git"
+    "url": "git+https://github.com/meteor199/cordova-plugin-app-update.git"
   },
   "keywords": [
     "cordova",
@@ -26,16 +26,12 @@
   "license": "MIT",
   "scripts": {
     "test": "npm run jshint",
-    "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src"
-  },
-  "bugs": {
-    "url": "https://github.com/vaenow/cordova-plugin-app-update/issues"
-  },
-  "scripts": {
-    "test": "npm run jshint",
     "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src && node node_modules/jshint/bin/jshint tests"
   },
-  "homepage": "https://github.com/vaenow/cordova-plugin-app-update#readme",
+  "bugs": {
+    "url": "https://github.com/meteor199/cordova-plugin-app-update/issues"
+  },
+  "homepage": "https://github.com/meteor199/cordova-plugin-app-update#readme",
   "devDependencies": {
     "jshint": "^2.6.0"
   }

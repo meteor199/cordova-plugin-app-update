@@ -1,4 +1,6 @@
-# 添加 `install` 方法，
+# 添加 `install` 方法
+fork 自 `https://www.npmjs.com/package/cordova-plugin-app-update`
+
 可以从 `url` 直接下载 `apk`,不需用`version.xml`
 
 ``` js
